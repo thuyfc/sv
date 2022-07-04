@@ -79,6 +79,7 @@ console.log(image);
                 onSubmit={handleSubmit}>
                 <h1 className="text-black text-3xl">Thêm Sinh Viên  </h1>
                <input type="file" onChange={handleImagechange}/>
+
                 <label htmlFor="codes">Mã Sinh Viên </label>
                 <input className="border-current inputcss"
                     type="text"
@@ -88,6 +89,7 @@ console.log(image);
                     required=""
                     value={codes}
                     onChange={handleInputChange} />
+
                 <label htmlFor="name">Tên sinh viên </label>
                 <input className="border-current inputcss"
                     type="text"
@@ -97,6 +99,7 @@ console.log(image);
                     required=""
                     value={name}
                     onChange={handleInputChange} />
+
                 <label htmlFor="classs">Lớp </label>
                 <input
                     type="text"
@@ -115,6 +118,7 @@ console.log(image);
                     required=""
                     value={email}
                     onChange={handleInputChange} />
+                    
                 <label htmlFor="contact">Phone </label>
                 <input
                     type="number"
