@@ -3,6 +3,8 @@ import { useNavigate, usePrams } from 'react-router-dom'
 import "./AddEdit.css"
 import Students from "../services/Studenst";
 import { DataContext } from "../App";
+import {storage} from "../firebase"
+import {ref ,uploadBytes ,getDownloadURL} from "firebase/storage"
 
 function AddEdit({id, setStudentId }) {
     const navigate = useNavigate();
@@ -15,7 +17,7 @@ function AddEdit({id, setStudentId }) {
         contact: "",
 
     };
-
+    const [image, setImage] =useState(null)
     const [flag, setFlag] = useState(true);
     const [message, setMessage] = useState({ error: false, msg: "" });
     const [state, setState] = useState(initialState);
@@ -26,7 +28,12 @@ function AddEdit({id, setStudentId }) {
         const { name, value } = e.target;
         setState({ ...state, [name]: value });
     };
-
+const handleImagechange =(e)=>{
+    if(e.target.files[0]){
+        setImage(e.target.files[0]);
+    }
+}
+console.log(image);
     // useEffect(() => {
     //     pathname.split("/")[1] === "update" ? setisUpdate(true) : setisUpdate(false)
     // }, [])
@@ -41,40 +48,10 @@ function AddEdit({id, setStudentId }) {
             Students.addStudents(state);
             setTimeout(() => navigate("/lists"), 500)
         }
-        // try {
-        //     if (id !== undefined && id !== "") {
-        //       await Students.updateStudents(id, state);
-        //       setStudentId("");
-        //       setMessage({ error: false, msg: "Updated successfully!" });
-        //     } else {
-        //       await Students.addStudents(Students);
-        //       setMessage({ error: false, msg: "New Book added successfully!" });
-        //     }
-        //   } catch (err) {
-        //     setMessage({ error: true, msg: err.message });
-        //   }
       
-        //     Students.addStudents(state);
            
         };
-    //     const editHandler = async () => {
-    //         setMessage("");
-    //         try {
-    //           const docSnap = await Students.getStudent(id);
-    //           console.log("the record is :", docSnap.data());
-    //           setState(docSnap.data().state);
-              
-    //         } catch (err) {
-    //           setMessage({ error: true, msg: err.message });
-    //         }
-    //       };
-        
-    //       useEffect(() => {
-    //         console.log("The id here is : ", id);
-    //         if (id !== undefined && id !== "") {
-    //           editHandler();
-    //         }
-    //       }, [id]);
+   
     
 
     // const pathname = window.location.pathname
@@ -101,7 +78,7 @@ function AddEdit({id, setStudentId }) {
                 }}
                 onSubmit={handleSubmit}>
                 <h1 className="text-black text-3xl">Thêm Sinh Viên  </h1>
-
+               <input type="file" onChange={handleImagechange}/>
                 <label htmlFor="codes">Mã Sinh Viên </label>
                 <input className="border-current inputcss"
                     type="text"
