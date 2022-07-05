@@ -21,7 +21,7 @@ function Lists({ getStudentId }) {
   const navigate = useNavigate()
   const [dataDetail, setDataDetail] = useState()
   const data = React.useContext(DataContext);
-  const [studentId, setSudentId] = useState("")
+  // const [studentId, setSudentId] = useState("")
 
 
 
@@ -89,9 +89,6 @@ function Lists({ getStudentId }) {
         setStudent(pre => ([...newArr]))
         break;
       case 'msv':
-
-
-
         const newAr = student.sort((a, b) => a.codes - b.codes)
 
         setStudent(pre => ([...newAr]))
@@ -160,10 +157,10 @@ function Lists({ getStudentId }) {
                   <td>{doc.contact}</td> */}
 
                   <td className=" mx-2.5">
-                    <Link to={`/update/${doc.id}`}><button className="mx-1 rounded-md w-9 bg-green-600 hover:bg-sky-700" onClick={() => {
+                    <Link to={`/update/${doc.id}`} className="mx-1 p-1 rounded-md w-9 bg-green-600 hover:bg-sky-700" onClick={() => {
                       data.setState(doc)
-                      console.log(doc.id)
-                    }}>Sửa</button></Link>
+                     
+                    }}> Sửa</Link>
                     <button className="mx-1 rounded-md w-9 bg-red-600 hover:bg-sky-700" onClick={(e) => deleteHandler(doc.id)}>Xóa</button>
                     <Link className="mx-1 rounded-md w-9 px-0.5 p-0.5 bg-emerald-400 hover:bg-sky-700" to={'/view'} onClick={() => {
                       data.setState(doc)

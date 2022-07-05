@@ -9,7 +9,7 @@ const View = () => {
 
 
   const data = React.useContext(DataContext);
-  console.log(data)
+  console.log("222222",data)
 
 
   return (

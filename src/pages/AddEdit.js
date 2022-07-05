@@ -3,10 +3,10 @@ import { useNavigate, usePrams } from 'react-router-dom'
 import "./AddEdit.css"
 import Students from "../services/Studenst";
 import { DataContext } from "../App";
-import {storage} from "../firebase"
-import {ref ,uploadBytes ,getDownloadURL} from "firebase/storage"
+import { storage } from "../firebase"
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
 
-function AddEdit({id, setStudentId }) {
+function AddEdit({ id, setStudentId }) {
     const navigate = useNavigate();
     const initialState = {
         name: "",
@@ -17,46 +17,70 @@ function AddEdit({id, setStudentId }) {
         contact: "",
 
     };
-    const [image, setImage] =useState(null)
+
+    const [image, setImage] = useState(null)
     const [flag, setFlag] = useState(true);
     const [message, setMessage] = useState({ error: false, msg: "" });
     const [state, setState] = useState(initialState);
     const { name, codes, email, contact, phone, classs } = state;
     const [isUpdate, setisUpdate] = useState(false)
     const data = React.useContext(DataContext);
+    const pathname = window.location.pathname
+
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setState({ ...state, [name]: value });
     };
-const handleImagechange =(e)=>{
-    if(e.target.files[0]){
-        setImage(e.target.files[0]);
+
+
+
+    const handleImagechange = (e) => {
+        if (e.target.files[0]) {
+            setImage(e.target.files[0]);
+        }
     }
-}
-console.log(image);
-    // useEffect(() => {
-    //     pathname.split("/")[1] === "update" ? setisUpdate(true) : setisUpdate(false)
-    // }, [])
+
+    console.log(data, 'ss')
+    useEffect(() => {
+        if (pathname.split("/")[1] === "update") {
+            setisUpdate(true)
+            setState({
+                name: data.state.name,
+                codes: data.state.codes,
+                classs: data.state.classs,
+                email: data.state.email,
+                phone: data.state.phone,
+                contact: data.state.contact,
+            })
+        } else {
+            setisUpdate(false)
+        }
+    }, [])
+
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!name || !codes || !classs || !email || !contact) {
+        if (!name || !codes || !classs || !email || !phone || !contact) {
             // setMessage({ error: true, msg: "All fields are mandatory!" });
             return;
         } else {
-            Students.addStudents(state);
+            if (isUpdate) {
+
+                console.log('dfff')
+
+                Students.updateStudents(data.state.id, state)
+
+               
+
+            } else { Students.addStudents(state); }
+
             setTimeout(() => navigate("/lists"), 500)
         }
-      
-           
-        };
-   
-    
 
-    // const pathname = window.location.pathname
-    // console.log(pathname.split("/")[1] === "update")
 
+    };
     /// lấy id,=> lấy dữ liệu của id đấy
     /// fill dữ liệu vào form sửa
     /// lấy từ input 
@@ -78,7 +102,7 @@ console.log(image);
                 }}
                 onSubmit={handleSubmit}>
                 <h1 className="text-black text-3xl">Thêm Sinh Viên  </h1>
-               <input type="file" onChange={handleImagechange}/>
+                {/* <input type="file" onChange={handleImagechange} /> */}
 
                 <label htmlFor="codes">Mã Sinh Viên </label>
                 <input className="border-current inputcss"
@@ -118,7 +142,7 @@ console.log(image);
                     required=""
                     value={email}
                     onChange={handleInputChange} />
-                    
+
                 <label htmlFor="contact">Phone </label>
                 <input
                     type="number"
@@ -141,7 +165,7 @@ console.log(image);
                     onChange={handleInputChange} />
 
 
-                <input type="submit" value="Save" />
+                <input type="submit" value="seve" />
             </form>
         </div>
 
